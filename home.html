@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopTheBest - Product Search</title>
+  <meta name="description" content="Search for products and view detailed information on ShopTheBest.">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/lucide-icons@0.243.0/css/lucide.min.css" rel="stylesheet">
+  <style>
+    .logo-placeholder {
+      width: 48px;
+      height: 48px;
+      background-color: #e2e8f0;
+      border: 2px dashed #cbd5e0;
+      border-radius: 1rem;
+      margin-right: 1rem;
+    }
+  </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col">
+  <header class="px-4 lg:px-6 h-14 flex items-center bg-gray-100">
+    <div class="flex items-center justify-center">
+      <div class="logo-placeholder"></div>
+      <h1 class="text-2xl font-bold">ShopTheBest</h1>
+    </div>
+    <nav class="ml-auto flex gap-4 sm:gap-6">
+      <input
+        type="text"
+        placeholder="Search products..."
+        id="searchInput"
+        class="ml-4 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </nav>
+  </header>
+  <main class="flex-1 p-4 lg:p-6">
+    <section class="w-full">
+      <div class="container px-4 md:px-6">
+        <div id="productList" class="grid gap-6 sm:grid-cols-1">
+          <!-- Product cards will be inserted here -->
+        </div>
+      </div>
+    </section>
+  </main>
+  <script>
+    const products = [
+      { id: 1, name: "Product 1", description: "Description of Product 1", price: 100, image: "https://via.placeholder.com/150" },
+      { id: 2, name: "Product 2", description: "Description of Product 2", price: 200, image: "https://via.placeholder.com/150" },
+      { id: 3, name: "Product 3", description: "Description of Product 3", price: 300, image: "https://via.placeholder.com/150" },
+      { id: 4, name: "Product 4", description: "Description of Product 4", price: 400, image: "https://via.placeholder.com/150" },
+      { id: 5, name: "Product 5", description: "Description of Product 5", price: 500, image: "https://via.placeholder.com/150" },
+    ];
+
+    const searchInput = document.getElementById('searchInput');
+    const productList = document.getElementById('productList');
+
+    function renderProducts(products) {
+      productList.innerHTML = '';
+      products.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.className = 'bg-white rounded-lg shadow-md overflow-hidden mb-4';
+        productCard.innerHTML = `
+          <div class="p-4">
+            <h3 class="text-xl font-bold mb-2">${product.name}</h3>
+            <p class="text-gray-500 mb-4">${product.description}</p>
+            <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover mb-4" />
+            <div class="flex justify-between items-center">
+              <p class="text-lg font-bold">$${product.price}</p>
+              <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                View Details
+              </button>
+            </div>
+          </div>
+        `;
+        productList.appendChild(productCard);
+      });
+    }
+
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase();
+      const filteredProducts = products.filter(product =>
+        product.name.toLowerCase().includes(query)
+      );
+      renderProducts(filteredProducts);
+    });
+
+    // Initial render
+    renderProducts(products);
+  </script>
+</body>
+</html>
